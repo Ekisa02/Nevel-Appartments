@@ -1,0 +1,4 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+html, body { overflow-x: hidden; }
+*:focus-visible { outline: 2px solid #E39A2D; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

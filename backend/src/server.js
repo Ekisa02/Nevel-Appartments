@@ -1,0 +1,20 @@
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import routes from './routes/index.js';
+import extra from './routes/extra.js';
+import { notFound, errorHandler } from './middleware/error.js';
+
+const app = express();
+app.set('trust proxy', 1);
+app.use(helmet());
+app.use(cors({ origin: process.env.FRONTEND_URL }));
+app.use(express.json({ limit: "4mb" }));
+app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, limit: 300 }));
+app.use('/api', routes);
+app.use('/api', extra);
+app.use(notFound);
+app.use(errorHandler);
+app.listen(process.env.PORT || 5000, () => console.log('Nevel API running'));
